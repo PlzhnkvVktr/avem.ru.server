@@ -10,5 +10,6 @@ data class AddProductRequest(
     val specification: String,
     val additionally: String,
     val category: Int,
+    val subcategory: Int,
     val images: List<String>
 )

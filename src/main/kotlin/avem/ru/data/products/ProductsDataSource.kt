@@ -6,6 +6,8 @@ import avem.ru.requests.AddProductRequest
 interface ProductsDataSource {
     suspend fun getAllProducts(): List<Product>
 
+    suspend fun getProductsByCategory(category: Int): List<Product>?
+
     suspend fun findById(id: String): Product?
 
     suspend fun addProduct(product: Product): Boolean

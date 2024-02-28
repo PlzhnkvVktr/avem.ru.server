@@ -18,6 +18,9 @@ class ProductsDataSourceImpl(
     override suspend fun findById(id: String): Product? =
         products.findOne(Product::id eq id)
 
+   override suspend fun getProductsByCategory(category: Int): List<Product> =
+        products.find(Product::category eq category).toList()
+
     override suspend fun addProduct(product: Product) =
         this.products.insertOne(product).wasAcknowledged()
 

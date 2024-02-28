@@ -26,6 +26,14 @@ fun Route.getProductRoutes(
         } ?: call.respond(HttpStatusCode.BadRequest)
     }
 
+    get("products/category/{category}") {
+        val category = call.parameters["category"].toString().toInt()
+        val response = productsData.getProductsByCategory(category)
+        response?.let {
+            call.respond(response)
+        } ?: call.respond(HttpStatusCode.BadRequest)
+    }
+
     post("products"){
         val request = call.receiveOrNull<AddProductRequest>() ?: kotlin.run {
             call.respond(HttpStatusCode.BadRequest)
@@ -45,6 +53,7 @@ fun Route.getProductRoutes(
             specification = request.specification,
             additionally = request.additionally,
             category = request.category,
+            subcategory = request.subcategory,
             images = request.images
         )
         val wasAcknowledged = productsData.addProduct(product)
