@@ -18,7 +18,7 @@ fun main() {
 fun Application.module() {
     val dbName = "avem"
     val db = KMongo.createClient(
-        connectionString = "mongodb://127.0.0.1:27017/$dbName"
+        connectionString = "mongodb://localhost:27017/$dbName"
     ).coroutine.getDatabase(dbName)
     val newsDataSource = NewsDataSourceImpl(db)
     val productsDataSource = ProductsDataSourceImpl(db)
