@@ -1,5 +1,6 @@
 package avem.ru
 
+import avem.ru.data.images.ImagesDataSourceImpl
 import avem.ru.data.news.NewsDataSourceImpl
 import avem.ru.data.products.ProductsDataSourceImpl
 import avem.ru.plugins.*
@@ -21,7 +22,12 @@ fun Application.module() {
     ).coroutine.getDatabase(dbName)
     val newsDataSource = NewsDataSourceImpl(db)
     val productsDataSource = ProductsDataSourceImpl(db)
+    val imagesDataSource = ImagesDataSourceImpl(db)
     configureHTTP()
     configureSerialization()
-    configureRouting(newsDataSource, productsDataSource)
+    configureRouting(
+        newsDataSource,
+        productsDataSource,
+        imagesDataSource
+    )
 }

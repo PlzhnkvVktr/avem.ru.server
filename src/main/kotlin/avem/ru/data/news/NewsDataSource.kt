@@ -11,7 +11,7 @@ interface NewsDataSource {
 
     suspend fun addNews(news: News): Boolean
 
-    suspend fun deleteNewsForId(newsId: String): Boolean
+    suspend fun deleteNewsById(newsId: String): Boolean
 
     suspend fun updateNewsById(newsId: String, newsRequest: AddNewsRequest): Boolean
 }

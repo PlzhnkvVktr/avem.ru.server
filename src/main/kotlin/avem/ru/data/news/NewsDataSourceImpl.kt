@@ -21,7 +21,7 @@ class NewsDataSourceImpl(
     override suspend fun addNews(news: News): Boolean =
         this.news.insertOne(news).wasAcknowledged()
 
-    override suspend fun deleteNewsForId(newsId: String): Boolean {
+    override suspend fun deleteNewsById(newsId: String): Boolean {
         val currentNews = news.findOne(News::id eq newsId)
         currentNews?.let { item ->
             return news.deleteOneById(item.id).wasAcknowledged()

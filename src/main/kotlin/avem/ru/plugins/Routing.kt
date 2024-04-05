@@ -1,5 +1,6 @@
 package avem.ru.plugins
 
+import avem.ru.data.images.ImagesDataSource
 import avem.ru.data.news.NewsDataSource
 import avem.ru.data.products.ProductsDataSource
 import avem.ru.routes.*
@@ -8,10 +9,12 @@ import io.ktor.server.routing.*
 
 fun Application.configureRouting(
     newsData: NewsDataSource,
-    productsData: ProductsDataSource
+    productsData: ProductsDataSource,
+    imagesData: ImagesDataSource
 ) {
     routing {
         getNewsRoutes(newsData)
         getProductRoutes(productsData)
+        getImageRoutes(imagesData)
     }
 }
