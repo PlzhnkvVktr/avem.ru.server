@@ -49,7 +49,7 @@ fun Route.getImageRoutes(
         channel.copyAndClose(file.writeChannel())
         val uuID = ObjectId().toString()
         val image = Image(
-            src = file.path,
+            src = "static/${file.name}",
             id = uuID
         )
 
