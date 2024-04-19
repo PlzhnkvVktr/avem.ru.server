@@ -5,6 +5,7 @@ import avem.ru.data.model.Image
 import avem.ru.requests.AddImageRequest
 import avem.ru.response.Response
 import io.ktor.http.*
+import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -33,33 +34,81 @@ fun Route.getImageRoutes(
         } ?: call.respond(HttpStatusCode.BadRequest)
     }
 
+//    post("/images/upload") {
+//        val filename = call.request.queryParameters["filename"]
+//        if (filename == null) {
+//            call.respond(HttpStatusCode.BadRequest)
+//            return@post
+//        }
+//
+//        val file = if (!Files.exists(Paths.get("static/$filename"))) {
+//            File("static/$filename")
+//        } else {
+//            File("static/${System.nanoTime()})_${filename}")
+//        }
+//        val channel = call.receiveChannel()
+//        channel.copyAndClose(file.writeChannel())
+//        val uuID = ObjectId().toString()
+//        val image = Image(
+//            src = "static/${file.name}",
+//            id = uuID
+//        )
+//
+//        val wasAcknowledged = imageData.addImage(image)
+//        if (!wasAcknowledged) {
+//            call.respond(HttpStatusCode.Conflict)
+//            return@post
+//        }
+//
+//        call.respond(image)
+//    }
+    post("/signup") {
+        val formParameters = call.receiveParameters()
+        val username = formParameters["username"].toString()
+        call.respondText("The '$username' account is created")
+    }
+
     post("/images/upload") {
-        val filename = call.request.queryParameters["filename"]
-        if (filename == null) {
-            call.respond(HttpStatusCode.BadRequest)
-            return@post
+        var fileDescription = ""
+        var fileName = ""
+        val multipartData = call.receiveMultipart()
+
+        multipartData.forEachPart { part ->
+            when (part) {
+                is PartData.FormItem -> {
+                    fileDescription = part.value
+                }
+
+                is PartData.FileItem -> {
+                    fileName = part.originalFileName as String
+                    val file = if (!Files.exists(Paths.get("static/$fileName"))) {
+                        File("static/$fileName")
+                    } else {
+                        File("static/${System.nanoTime()})_${fileName}")
+                    }
+                    val fileBytes = part.streamProvider().readBytes()
+                    file.writeBytes(fileBytes)
+
+
+                    val uuID = ObjectId().toString()
+                    val image = Image(
+                        src = "static/${file.name}",
+                        id = uuID
+                    )
+
+                    val wasAcknowledged = imageData.addImage(image)
+                    if (!wasAcknowledged) {
+                        call.respond(HttpStatusCode.Conflict)
+                        return@forEachPart
+                    }
+                }
+
+                else -> {}
+            }
+            part.dispose()
         }
 
-        val file = if (!Files.exists(Paths.get("static/$filename"))) {
-            File("static/$filename")
-        } else {
-            File("static/${System.nanoTime()})_${filename}")
-        }
-        val channel = call.receiveChannel()
-        channel.copyAndClose(file.writeChannel())
-        val uuID = ObjectId().toString()
-        val image = Image(
-            src = "static/${file.name}",
-            id = uuID
-        )
-
-        val wasAcknowledged = imageData.addImage(image)
-        if (!wasAcknowledged) {
-            call.respond(HttpStatusCode.Conflict)
-            return@post
-        }
-
-        call.respond(image)
+        call.respondText("$fileDescription is uploaded to 'uploads/$fileName'")
     }
 
     delete("/images/{id}") {
