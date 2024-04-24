@@ -34,34 +34,6 @@ fun Route.getImageRoutes(
         } ?: call.respond(HttpStatusCode.BadRequest)
     }
 
-//    post("/images/upload") {
-//        val filename = call.request.queryParameters["filename"]
-//        if (filename == null) {
-//            call.respond(HttpStatusCode.BadRequest)
-//            return@post
-//        }
-//
-//        val file = if (!Files.exists(Paths.get("static/$filename"))) {
-//            File("static/$filename")
-//        } else {
-//            File("static/${System.nanoTime()})_${filename}")
-//        }
-//        val channel = call.receiveChannel()
-//        channel.copyAndClose(file.writeChannel())
-//        val uuID = ObjectId().toString()
-//        val image = Image(
-//            src = "static/${file.name}",
-//            id = uuID
-//        )
-//
-//        val wasAcknowledged = imageData.addImage(image)
-//        if (!wasAcknowledged) {
-//            call.respond(HttpStatusCode.Conflict)
-//            return@post
-//        }
-//
-//        call.respond(image)
-//    }
     post("/signup") {
         val formParameters = call.receiveParameters()
         val username = formParameters["username"].toString()

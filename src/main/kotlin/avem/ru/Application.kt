@@ -2,6 +2,7 @@ package avem.ru
 
 import avem.ru.data.images.ImagesDataSourceImpl
 import avem.ru.data.news.NewsDataSourceImpl
+import avem.ru.data.pages.PagesDataSourceImpl
 import avem.ru.data.products.ProductsDataSourceImpl
 import avem.ru.plugins.*
 import io.ktor.server.application.*
@@ -23,11 +24,13 @@ fun Application.module() {
     val newsDataSource = NewsDataSourceImpl(db)
     val productsDataSource = ProductsDataSourceImpl(db)
     val imagesDataSource = ImagesDataSourceImpl(db)
+    val pagesDataSource = PagesDataSourceImpl(db)
     configureHTTP()
     configureSerialization()
     configureRouting(
         newsDataSource,
         productsDataSource,
-        imagesDataSource
+        imagesDataSource,
+        pagesDataSource
     )
 }
