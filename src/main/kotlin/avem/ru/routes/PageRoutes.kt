@@ -4,6 +4,7 @@ import avem.ru.data.model.Page
 import avem.ru.data.pages.PagesDataSource
 import avem.ru.requests.AddNewsRequest
 import avem.ru.requests.AddPageRequest
+import avem.ru.response.Response
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
@@ -57,6 +58,7 @@ fun Route.getPageRoutes(
         val page = Page(
             name = request.name,
             html = request.html,
+            path = request.path,
             visibility = request.visibility
         )
         val wasAcknowledged = pageData.addPage(page)
@@ -66,5 +68,22 @@ fun Route.getPageRoutes(
         }
 
         call.respond(HttpStatusCode.OK)
+    }
+
+    delete("pages/{id}"){
+
+        val id = call.parameters["id"].toString()
+
+        if (pageData.deletePageById(id)) {
+            call.respond(
+                HttpStatusCode.OK,
+                Response(true, "Employee successfully deleted")
+            )
+        } else {
+            call.respond(
+                HttpStatusCode.OK,
+                Response(true, "Employee not found")
+            )
+        }
     }
 }

@@ -1,5 +1,6 @@
 package avem.ru.data.pages
 
+import avem.ru.data.model.News
 import avem.ru.data.model.Page
 import avem.ru.requests.AddPageRequest
 import org.litote.kmongo.coroutine.CoroutineDatabase
@@ -23,12 +24,20 @@ class PagesDataSourceImpl(
     override suspend fun addPage(page: Page): Boolean =
         pages.insertOne(page).wasAcknowledged()
 
+    override suspend fun deletePageById(pageId: String): Boolean {
+        val currentNews = pages.findOne(Page::id eq pageId)
+        currentNews?.let { item ->
+            return pages.deleteOneById(item.id).wasAcknowledged()
+        } ?: return false
+    }
+
     override suspend fun updatePageById(id: String, pageRequest: AddPageRequest): Boolean =
         findById(id)?.let {
                 article ->
             val updateResult =
                 pages.replaceOne(article.copy(
                     html = pageRequest.html,
+                    path = pageRequest.path,
                     visibility = pageRequest.visibility
                 ))
             updateResult.modifiedCount == 1L

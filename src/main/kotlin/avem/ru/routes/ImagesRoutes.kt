@@ -34,12 +34,6 @@ fun Route.getImageRoutes(
         } ?: call.respond(HttpStatusCode.BadRequest)
     }
 
-    post("/signup") {
-        val formParameters = call.receiveParameters()
-        val username = formParameters["username"].toString()
-        call.respondText("The '$username' account is created")
-    }
-
     post("/images/upload") {
         var fileDescription = ""
         var fileName = ""

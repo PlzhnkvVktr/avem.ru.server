@@ -10,5 +10,6 @@ data class Page (
     val id: String = ObjectId().toString(),
     val name: String,
     val html: String,
+    val path: String,
     val visibility: Boolean
 )

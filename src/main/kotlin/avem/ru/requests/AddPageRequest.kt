@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 data class AddPageRequest(
     val name: String,
     val html: String,
+    val path: String,
     val visibility: Boolean
 )
