@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AddProductRequest(
     val name: String,
+    val card_img: String,
     val description: String,
     val characteristic: String,
     val specification: String,

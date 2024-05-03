@@ -37,6 +37,7 @@ class ProductsDataSourceImpl(
                 val updateResult =
                     products.replaceOne(article.copy(
                         name = productRequest.name,
+                        card_img = productRequest.card_img,
                         description = productRequest.description,
                         characteristic = productRequest.characteristic,
                         specification = productRequest.specification,

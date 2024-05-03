@@ -7,6 +7,7 @@ import org.bson.types.ObjectId
 @Serializable
 data class Product (
     val name: String,
+    val card_img: String,
     val description: String,
     val characteristic: String,
     val specification: String,
