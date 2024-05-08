@@ -36,6 +36,7 @@ class PagesDataSourceImpl(
                 article ->
             val updateResult =
                 pages.replaceOne(article.copy(
+                    name = pageRequest.name,
                     html = pageRequest.html,
                     path = pageRequest.path,
                     visibility = pageRequest.visibility

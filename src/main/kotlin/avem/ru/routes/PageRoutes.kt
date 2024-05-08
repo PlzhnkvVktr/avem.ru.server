@@ -32,8 +32,8 @@ fun Route.getPageRoutes(
     put("/pages/{id}") {
         val id = call.parameters["id"].toString()
 
-        val news = call.receive<AddPageRequest>()
-        val updatedSuccessfully = pageData.updatePageById(id, news)
+        val page = call.receive<AddPageRequest>()
+        val updatedSuccessfully = pageData.updatePageById(id, page)
         if (updatedSuccessfully) {
             call.respond(HttpStatusCode.OK, "Article was edited")
         } else {
