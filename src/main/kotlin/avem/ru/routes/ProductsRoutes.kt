@@ -34,6 +34,14 @@ fun Route.getProductRoutes(
         } ?: call.respond(HttpStatusCode.BadRequest)
     }
 
+    get("products/subcategory/{subcategory}") {
+        val subcategory = call.parameters["subcategory"].toString().toInt()
+        val response = productsData.getProductsBySubcategory(subcategory)
+        response?.let {
+            call.respond(response)
+        } ?: call.respond(HttpStatusCode.BadRequest)
+    }
+
     post("products"){
         val request = call.receiveOrNull<AddProductRequest>() ?: kotlin.run {
             call.respond(HttpStatusCode.BadRequest)

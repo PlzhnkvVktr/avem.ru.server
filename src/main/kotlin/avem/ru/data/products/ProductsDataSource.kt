@@ -7,6 +7,7 @@ interface ProductsDataSource {
     suspend fun getAllProducts(): List<Product>
 
     suspend fun getProductsByCategory(category: Int): List<Product>?
+    suspend fun getProductsBySubcategory(subcategory: Int): List<Product>?
 
     suspend fun findById(id: String): Product?
 

@@ -21,6 +21,10 @@ class ProductsDataSourceImpl(
    override suspend fun getProductsByCategory(category: Int): List<Product> =
         products.find(Product::category eq category).toList()
 
+    override suspend fun getProductsBySubcategory(subcategory: Int): List<Product> =
+        products.find(Product::subcategory eq subcategory).toList()
+
+
     override suspend fun addProduct(product: Product) =
         this.products.insertOne(product).wasAcknowledged()
 
