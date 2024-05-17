@@ -8,7 +8,7 @@ interface ProductsDataSource {
 
     suspend fun getProductsByCategory(category: Int): List<Product>?
     suspend fun getProductsBySubcategory(subcategory: Int): List<Product>?
-
+    suspend fun findByName(name: String): List<Product>?
     suspend fun findById(id: String): Product?
 
     suspend fun addProduct(product: Product): Boolean

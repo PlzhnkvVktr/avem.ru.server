@@ -39,7 +39,8 @@ class PagesDataSourceImpl(
                     name = pageRequest.name,
                     html = pageRequest.html,
                     path = pageRequest.path,
-                    visibility = pageRequest.visibility
+                    isVisibility = pageRequest.isVisibility,
+                    isNavbar = pageRequest.isNavbar
                 ))
             updateResult.modifiedCount == 1L
         } ?: false

@@ -26,6 +26,14 @@ fun Route.getProductRoutes(
         } ?: call.respond(HttpStatusCode.BadRequest)
     }
 
+    get("products_search/{name}") {
+        val name = call.parameters["name"].toString()
+        val response = productsData.findByName(name)
+        response?.let {
+            call.respond(response)
+        } ?: call.respond(HttpStatusCode.BadRequest)
+    }
+
     get("products/category/{category}") {
         val category = call.parameters["category"].toString().toInt()
         val response = productsData.getProductsByCategory(category)

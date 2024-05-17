@@ -59,7 +59,8 @@ fun Route.getPageRoutes(
             name = request.name,
             html = request.html,
             path = request.path,
-            visibility = request.visibility
+            isVisibility = request.isVisibility,
+            isNavbar = request.isNavbar
         )
         val wasAcknowledged = pageData.addPage(page)
         if (!wasAcknowledged) {
