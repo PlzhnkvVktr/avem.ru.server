@@ -5,6 +5,7 @@ import avem.ru.requests.AddProductRequest
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.coroutine.replaceOne
 import org.litote.kmongo.eq
+import org.litote.kmongo.util.idValue
 
 class ProductsDataSourceImpl(
     db: CoroutineDatabase
@@ -25,7 +26,7 @@ class ProductsDataSourceImpl(
         products.find(Product::subcategory eq subcategory).toList()
 
     override suspend fun findByName(name: String): List<Product> =
-        products.find(Product::name eq name).toList()
+        products.find().descendingSort(Product::name).toList().filter { it.name.uppercase().contains(name.uppercase()) }
 
     override suspend fun addProduct(product: Product) =
         this.products.insertOne(product).wasAcknowledged()
