@@ -10,7 +10,8 @@ data class AddProductRequest(
     val characteristic: String,
     val specification: String,
     val additionally: String,
-    val category: Int,
-    val subcategory: Int,
+    val category: String,
+    val subcategory: String,
+    val modification: String,
     val images: List<String>
 )

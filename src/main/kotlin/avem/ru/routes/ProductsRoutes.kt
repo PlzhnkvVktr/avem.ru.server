@@ -35,7 +35,7 @@ fun Route.getProductRoutes(
     }
 
     get("products/category/{category}") {
-        val category = call.parameters["category"].toString().toInt()
+        val category = call.parameters["category"].toString()
         val response = productsData.getProductsByCategory(category)
         response?.let {
             call.respond(response)
@@ -43,7 +43,7 @@ fun Route.getProductRoutes(
     }
 
     get("products/subcategory/{subcategory}") {
-        val subcategory = call.parameters["subcategory"].toString().toInt()
+        val subcategory = call.parameters["subcategory"].toString()
         val response = productsData.getProductsBySubcategory(subcategory)
         response?.let {
             call.respond(response)
@@ -71,6 +71,7 @@ fun Route.getProductRoutes(
             additionally = request.additionally,
             category = request.category,
             subcategory = request.subcategory,
+            modification = request.modification,
             images = request.images
         )
         val wasAcknowledged = productsData.addProduct(product)

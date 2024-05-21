@@ -12,7 +12,7 @@ import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
 
 fun main() {
-    embeddedServer(Netty, port = 8080, host = "192.168.1.103", module = Application::module)
+    embeddedServer(Netty, port = 8080, host = "192.168.1.157", module = Application::module)
 //    embeddedServer(Netty, port = 8080, host = "192.168.1.2", module = Application::module)
         .start(wait = true)
 }
