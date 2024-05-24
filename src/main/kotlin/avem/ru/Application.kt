@@ -1,9 +1,11 @@
 package avem.ru
 
+import avem.ru.data.categoty.CategoryDataSourceImpl
 import avem.ru.data.images.ImagesDataSourceImpl
 import avem.ru.data.news.NewsDataSourceImpl
 import avem.ru.data.pages.PagesDataSourceImpl
 import avem.ru.data.products.ProductsDataSourceImpl
+import avem.ru.data.subcategory.SubcategoryDataSourceImpl
 import avem.ru.plugins.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -26,12 +28,16 @@ fun Application.module() {
     val productsDataSource = ProductsDataSourceImpl(db)
     val imagesDataSource = ImagesDataSourceImpl(db)
     val pagesDataSource = PagesDataSourceImpl(db)
+    val categoryDataSource = CategoryDataSourceImpl(db)
+    val subcategoryDataSource = SubcategoryDataSourceImpl(db)
     configureHTTP()
     configureSerialization()
     configureRouting(
         newsDataSource,
         productsDataSource,
         imagesDataSource,
-        pagesDataSource
+        pagesDataSource,
+        categoryDataSource,
+        subcategoryDataSource
     )
 }

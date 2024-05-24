@@ -1,13 +1,13 @@
 package avem.ru.plugins
 
+import avem.ru.data.categoty.CategoryDataSource
+import avem.ru.data.categoty.CategoryDataSourceImpl
 import avem.ru.data.images.ImagesDataSource
 import avem.ru.data.news.NewsDataSource
 import avem.ru.data.pages.PagesDataSource
 import avem.ru.data.products.ProductsDataSource
-import avem.ru.routes.getImageRoutes
-import avem.ru.routes.getNewsRoutes
-import avem.ru.routes.getPageRoutes
-import avem.ru.routes.getProductRoutes
+import avem.ru.data.subcategory.SubcategoryDataSource
+import avem.ru.routes.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.routing.*
@@ -17,7 +17,9 @@ fun Application.configureRouting(
     newsData: NewsDataSource,
     productsData: ProductsDataSource,
     imagesData: ImagesDataSource,
-    pageData: PagesDataSource
+    pageData: PagesDataSource,
+    categoryData: CategoryDataSource,
+    subcategoryData: SubcategoryDataSource
 ) {
     routing {
         staticFiles("/static", File("static"))
@@ -25,5 +27,7 @@ fun Application.configureRouting(
         getProductRoutes(productsData)
         getImageRoutes(imagesData)
         getPageRoutes(pageData)
+        getCategoryRoutes(categoryData)
+        getSubcategoryRoutes(subcategoryData)
     }
 }

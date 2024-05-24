@@ -2,12 +2,10 @@ package avem.ru.routes
 
 import avem.ru.data.categoty.CategoryDataSource
 import avem.ru.data.model.Category
-import avem.ru.data.model.News
 import avem.ru.data.model.Subcategory
-import avem.ru.data.news.NewsDataSource
+import avem.ru.data.subcategory.SubcategoryDataSource
 import avem.ru.requests.AddCategoryRequest
-import avem.ru.requests.AddNewsRequest
-import avem.ru.requests.AddProductRequest
+import avem.ru.requests.AddSubcategoryRequest
 import avem.ru.response.Response
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -15,28 +13,26 @@ import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import org.litote.kmongo.eq
-import java.util.*
 
-fun Route.getCategoryRoutes(
-    categoryData: CategoryDataSource
+fun Route.getSubcategoryRoutes(
+    subcategoryData: SubcategoryDataSource
 ) {
-    get("/categories") {
-        val allCategory = categoryData.getAllCategories()
-        call.respond(allCategory)
+    get("/subcategory") {
+        val allSubcategory = subcategoryData.getAllSubcategory()
+        call.respond(allSubcategory)
     }
 
-    get("/categories/{id}") {
+    get("/subcategory/{id}") {
         val id = call.parameters["id"].toString()
-        val articleById = categoryData.findById(id)
+        val articleById = subcategoryData.findById(id)
         articleById?.let {
             call.respond(articleById)
         } ?: call.respond(HttpStatusCode.BadRequest)
     }
 
-    post("/categories") {
+    post("/subcategory") {
         val request = try {
-            call.receive<AddCategoryRequest>()
+            call.receive<AddSubcategoryRequest>()
         } catch (e: CannotTransformContentToTypeException) {
             call.respond(HttpStatusCode.BadRequest)
             return@post
@@ -48,12 +44,12 @@ fun Route.getCategoryRoutes(
             return@post
         }
 
-        val category = Category(
+        val subcategory = Subcategory(
             name = request.name,
             path = request.path,
-            subcategories = request.subcategories
+            card_img = request.image
         )
-        val wasAcknowledged = categoryData.addCategory(category)
+        val wasAcknowledged = subcategoryData.addSubcategory(subcategory)
         if (!wasAcknowledged) {
             call.respond(HttpStatusCode.Conflict)
             return@post
@@ -62,10 +58,10 @@ fun Route.getCategoryRoutes(
         call.respond(HttpStatusCode.OK)
     }
 
-    delete("/categories/{id}") {
+    delete("/subcategory/{id}") {
         val id = call.parameters["id"].toString()
 
-        if (categoryData.deleteCategoryById(id)) {
+        if (subcategoryData.deleteSubcategoryById(id)) {
             call.respond(
                 HttpStatusCode.OK,
                 Response(true, "Employee successfully deleted")
@@ -78,11 +74,11 @@ fun Route.getCategoryRoutes(
         }
     }
 
-    put("/categories/{id}") {
+    put("/subcategory/{id}") {
         val id = call.parameters["id"].toString()
 
-        val category = call.receive<AddCategoryRequest>()
-        val updatedSuccessfully = categoryData.updateCategoryById(id, category)
+        val subcategory = call.receive<AddSubcategoryRequest>()
+        val updatedSuccessfully = subcategoryData.updateSubcategoryById(id, subcategory)
         if (updatedSuccessfully) {
             call.respond(HttpStatusCode.OK, "Article was edited")
         } else {

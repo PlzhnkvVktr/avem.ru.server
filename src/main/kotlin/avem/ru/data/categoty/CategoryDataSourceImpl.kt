@@ -3,7 +3,10 @@ package avem.ru.data.categoty
 import avem.ru.data.model.Category
 import avem.ru.data.model.News
 import avem.ru.data.model.Product
+import avem.ru.requests.AddCategoryRequest
+import avem.ru.requests.AddNewsRequest
 import org.litote.kmongo.coroutine.CoroutineDatabase
+import org.litote.kmongo.coroutine.replaceOne
 import org.litote.kmongo.eq
 
 class CategoryDataSourceImpl(
@@ -26,5 +29,16 @@ class CategoryDataSourceImpl(
             return categories.deleteOneById(item.id).wasAcknowledged()
         } ?: return false
     }
+
+    override suspend fun updateCategoryById(categoryId: String, categoryRequest: AddCategoryRequest): Boolean =
+        findById(categoryId)?.let {
+                article ->
+            val updateResult =
+                categories.replaceOne(article.copy(
+                    name = categoryRequest.name,
+                    path = categoryRequest.path
+                ))
+            updateResult.modifiedCount == 1L
+        } ?: false
 
 }
