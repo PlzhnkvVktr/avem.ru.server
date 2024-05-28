@@ -36,7 +36,8 @@ class CategoryDataSourceImpl(
             val updateResult =
                 categories.replaceOne(article.copy(
                     name = categoryRequest.name,
-                    path = categoryRequest.path
+                    path = categoryRequest.path,
+                    subcategories = categoryRequest.subcategories
                 ))
             updateResult.modifiedCount == 1L
         } ?: false

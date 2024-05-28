@@ -2,12 +2,7 @@ package avem.ru.routes
 
 import avem.ru.data.categoty.CategoryDataSource
 import avem.ru.data.model.Category
-import avem.ru.data.model.News
-import avem.ru.data.model.Subcategory
-import avem.ru.data.news.NewsDataSource
 import avem.ru.requests.AddCategoryRequest
-import avem.ru.requests.AddNewsRequest
-import avem.ru.requests.AddProductRequest
 import avem.ru.response.Response
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -15,8 +10,6 @@ import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import org.litote.kmongo.eq
-import java.util.*
 
 fun Route.getCategoryRoutes(
     categoryData: CategoryDataSource
@@ -51,7 +44,7 @@ fun Route.getCategoryRoutes(
         val category = Category(
             name = request.name,
             path = request.path,
-            subcategories = request.subcategories
+            subcategories = listOf()
         )
         val wasAcknowledged = categoryData.addCategory(category)
         if (!wasAcknowledged) {
