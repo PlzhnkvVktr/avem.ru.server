@@ -8,6 +8,7 @@ import org.bson.types.ObjectId
 data class Product (
     val name: String,
     val card_img: String,
+    val card_description: String,
     val description: String,
     val characteristic: String,
     val specification: String,

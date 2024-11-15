@@ -65,6 +65,7 @@ fun Route.getProductRoutes(
         val product = Product(
             name = request.name,
             card_img = request.card_img,
+            card_description = request.card_description,
             description = request.description,
             characteristic = request.characteristic,
             specification = request.specification,

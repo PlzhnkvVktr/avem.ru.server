@@ -45,6 +45,7 @@ class ProductsDataSourceImpl(
                     products.replaceOne(article.copy(
                         name = productRequest.name,
                         card_img = productRequest.card_img,
+                        card_description = productRequest.card_description,
                         description = productRequest.description,
                         characteristic = productRequest.characteristic,
                         specification = productRequest.specification,
